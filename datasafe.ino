@@ -34,7 +34,7 @@ ScreenLib screen = ScreenLib(TFT_CS, TFT_DC);
 
 /**** ntc settings ****/
 
-Adafruit_NFCShield_I2C nfc(NFC_IRQ_PIN, NFC_RESET_PIN);
+//Adafruit_NFCShield_I2C nfc(NFC_IRQ_PIN, NFC_RESET_PIN);
 NFCLib nfclib;
 
 char nfc_key[6] = { 0, 0, 0, 0, 0, 0 }; // the key buffer
@@ -68,6 +68,18 @@ uint16_t last_key_press_ms = 0;
 #define STATE_END 		4
 
 uint8_t current_state = STATE_RESET;
+
+
+
+
+/**** messages ****/
+static const char* screen_message[] = { 
+  "DataSave",
+  "v1.0",
+  "nfc card login",
+  "unlock the nfc card with your key!",
+  "put your nfc card on the nfc reader!"
+};
 
 
 
@@ -118,27 +130,27 @@ void showSplashScreen() {
   screen.fillScreen(ILI9341_BLACK);  
   screen.setCursor(BOXSIZE, BOXSIZE);
   screen.setTextColor(ILI9341_RED);  screen.setTextSize(4);
-  screen.println("DataSafe");
+  screen.println(screen_message[0]);
   
   screen.setCursor(BOXSIZE*3, BOXSIZE*3);
   screen.setTextColor(ILI9341_WHITE);  screen.setTextSize(2);
-  screen.println("v1.0");
+  screen.println(screen_message[1]);
 }
 
 
 void showNFCKeyScreen() {
   current_state = STATE_NFC_KEY_LOGIN;
   clearScreen();
-  screen.writeTextToTop("nfc card login");
-  screen.writeTextToBottom("type your key!");
+  screen.writeTextToTop(screen_message[2]);
+  screen.writeTextToBottom(screen_message[3]);
   screen.drawKeyboard();
 }
 
 void showNFCCardScreen() {
   current_state = STATE_NFC_CARD_LOGIN;
   clearScreen();
-  screen.writeTextToTop("nfc card login");
-  screen.writeTextToBottom("put your ntc card on the shield!");
+  screen.writeTextToTop(screen_message[2]);
+  screen.writeTextToBottom(screen_message[4]);
 }
 
 
@@ -188,7 +200,6 @@ void actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolean keyboardOn) {
       nfc_key_count++;
       
       char dest[12];
-      char *pChar = &c;
       strcpy(dest, "key: ");
       strcat(dest, nfc_key);
       dest[11] = '\0';
@@ -263,7 +274,7 @@ void doStateNfcCardLogin() {
     //uint8_t success;
     uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };                    // Buffer to store the returned UID
     uint8_t uidLength = nfclib.initTarget(&*uid);               // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
-    nfclib.printTarget();   
+    uidLength = nfclib.printTarget();   
 
     // show the data
     showDataScreen();
