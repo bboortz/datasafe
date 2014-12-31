@@ -1,7 +1,7 @@
 /***************************************************
-	@author:	bboortz
-	@license:	bsd license
-***************************************************/
+ * 	@author:	bboortz
+ * 	@license:	bsd license
+ ***************************************************/
 
 
 
@@ -37,7 +37,8 @@ ScreenLib screen = ScreenLib(TFT_CS, TFT_DC);
 //Adafruit_NFCShield_I2C nfc(NFC_IRQ_PIN, NFC_RESET_PIN);
 NFCLib nfclib;
 
-char nfc_key[6] = { 0, 0, 0, 0, 0, 0 }; // the key buffer
+char nfc_key[6] = { 
+  0, 0, 0, 0, 0, 0 }; // the key buffer
 uint8_t nfc_key_count = 0;
 
 
@@ -87,24 +88,24 @@ static const char* screen_message[] = {
 /**** display prepare functions ****/
 
 void clearScreen() {
-    screen.clearScreen();
+  screen.clearScreen();
 }
 
 
 void reset() {
   // reset all global variables
   current_state = STATE_RESET;
-//  last_key_press_ms = 0;
-//  last_key = 0;
+  //  last_key_press_ms = 0;
+  //  last_key = 0;
   memset(nfc_key, 0, sizeof(nfc_key));
   nfc_key_count = 0;
-  
+
   // show the splash screen
   showSplashScreen();
-  
+
   // reset the sd card controller
   // sd.setup();
-  
+
   // reset the touchscreen
   uint16_t x, y;
   uint8_t z;  
@@ -113,7 +114,7 @@ void reset() {
     Serial.println(screen.getTouchScreen().bufferSize());
   }
   screen.getTouchScreen().writeRegister8(STMPE_INT_STA, 0xFF);
-  
+
   // setup nfc
   nfclib.setupHost();
 
@@ -129,11 +130,13 @@ void reset() {
 void showSplashScreen() {
   screen.fillScreen(ILI9341_BLACK);  
   screen.setCursor(BOXSIZE, BOXSIZE);
-  screen.setTextColor(ILI9341_RED);  screen.setTextSize(4);
+  screen.setTextColor(ILI9341_RED);  
+  screen.setTextSize(4);
   screen.println(screen_message[0]);
-  
+
   screen.setCursor(BOXSIZE*3, BOXSIZE*3);
-  screen.setTextColor(ILI9341_WHITE);  screen.setTextSize(2);
+  screen.setTextColor(ILI9341_WHITE);  
+  screen.setTextSize(2);
   screen.println(screen_message[1]);
 }
 
@@ -158,14 +161,15 @@ void showDataScreen() {
   current_state = STATE_SHOW_DATA;
   screen.fillScreen(ILI9341_BLACK);  
   screen.setCursor(0, 0);
-  screen.setTextColor(ILI9341_WHITE);  screen.setTextSize(2);
+  screen.setTextColor(ILI9341_WHITE);  
+  screen.setTextSize(2);
   screen.println("The data:");
-  
+
   screen.setCursor(BOXSIZE*2, BOXSIZE*2);
   screen.println("MY SECRET DATA !!");
-  
-//  sd.showFile("test.txt");
-  
+
+  //  sd.showFile("test.txt");
+
   delay(3000);
 }
 
@@ -180,16 +184,16 @@ void actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolean keyboardOn) {
   uint16_t millis_now = millis();
   uint16_t millis_delta = millis_now - last_key_press_ms;  
   char c;
-  
+
   // check polling
   if (millis_delta <= KEYBOARD_POLLING_MS) {
     return;
   }
-  
-  
+
+
   // actions
   actOnButtonPress(x, y);
-  
+
   if (keyboardOn) {
     if ( nfc_key_count > 5) {
       return;
@@ -198,29 +202,31 @@ void actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolean keyboardOn) {
     if (c != 0) {
       nfc_key[nfc_key_count] = c;
       nfc_key_count++;
-      
+
       char dest[12];
       strcpy(dest, "key: ");
       strcat(dest, nfc_key);
       dest[11] = '\0';
       screen.writeTextToBottom(dest);
-    
-    
+
+
       // show the nfc screen when password is fullfilled
       if (nfc_key_count > 5) {
         showNFCCardScreen();
       }
-      
+
     }
   }
-  
-  
+
+
   // set last key press for polling
   last_key_press_ms = millis_now;
 }
 
 void actOnButtonPress(uint16_t x, uint16_t y) {
-    Serial.print(x); Serial.print(" / "); Serial.print(y);
+  Serial.print(x); 
+  Serial.print(" / "); 
+  Serial.print(y);
   Serial.println("");
   if (SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 >= y && y <= SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 + SCREEN_BUTTON_SIZE * 2) {
     if (SCREEN_TEXT_PADDING*3 >= x && x <= SCREEN_TEXT_PADDING*3 + SCREEN_BUTTON_SIZE * 2) {
@@ -247,47 +253,48 @@ void doStateReset() {
 }
 
 void doStateNfcKeyLogin() {
-    // wait for the touch and show it
-    if (screen.getTouchScreen().bufferEmpty()) {
-      return;
-    }
-    if (! screen.getTouchScreen().touched()) {
-      return;
-    }
-    
-    
-    // Retrieve a point  
-    TS_Point p = screen.touchscreenGetPoint();
-    /*
-    if (p.z == 0) {
-      return;
-    }
-    */
+  // wait for the touch and show it
+  if (screen.getTouchScreen().bufferEmpty()) {
+    return;
+  }
+  if (! screen.getTouchScreen().touched()) {
+    return;
+  }
 
-    // act on touchscreen interaction
-    actOnTouchScreenInteraction(p.x, p.y, true);
+
+  // Retrieve a point  
+  TS_Point p = screen.touchscreenGetPoint();
+  /*
+    if (p.z == 0) {
+   return;
+   }
+   */
+
+  // act on touchscreen interaction
+  actOnTouchScreenInteraction(p.x, p.y, true);
 }
 
 void doStateNfcCardLogin() {
-    
-    // read the nfc card
-    //uint8_t success;
-    uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };                    // Buffer to store the returned UID
-    uint8_t uidLength = nfclib.initTarget(&*uid);               // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
-    uidLength = nfclib.printTarget();   
 
-    // show the data
-    showDataScreen();
-     
-    // reset everything()
-    reset();  
+  // read the nfc card
+  //uint8_t success;
+  uint8_t uid[] = { 
+    0, 0, 0, 0, 0, 0, 0   };                    // Buffer to store the returned UID
+  uint8_t uidLength = nfclib.initTarget(&*uid);               // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
+  uidLength = nfclib.printTarget();   
+
+  // show the data
+  showDataScreen();
+
+  // reset everything()
+  reset();  
 }
 
 void doStateShowData() {
-    // show the data
-    showDataScreen();
+  // show the data
+  showDataScreen();
 
-    nextState();
+  nextState();
 }
 
 
@@ -304,15 +311,28 @@ void loop()
 {
   // working with the state pattern because we have different screens (states)
   switch (current_state) {
-    case STATE_RESET:              doStateReset();              break;
-    case STATE_NFC_KEY_LOGIN:      doStateNfcKeyLogin();        break;
-    case STATE_NFC_CARD_LOGIN:     doStateNfcCardLogin();       break;
-    case STATE_SHOW_DATA:          doStateShowData();           break;
-    case STATE_END:                nextState();                 break;
-    default:                       doStateReset();              break;
+  case STATE_RESET:              
+    doStateReset();              
+    break;
+  case STATE_NFC_KEY_LOGIN:      
+    doStateNfcKeyLogin();        
+    break;
+  case STATE_NFC_CARD_LOGIN:     
+    doStateNfcCardLogin();       
+    break;
+  case STATE_SHOW_DATA:          
+    doStateShowData();           
+    break;
+  case STATE_END:                
+    nextState();                 
+    break;
+  default:                       
+    doStateReset();              
+    break;
   }
 
 }
+
 
 
 
