@@ -7,20 +7,8 @@
 
 
 /**** library includes ****/
+#include "datasafe.h"
 
-#include <SPI.h>      
-#include <Wire.h>                      // this is needed even tho we aren't using it
-
-#include <Adafruit_GFX.h>              // the adafruit core graphics lib
-#include <Adafruit_ILI9341.h>          // the adafruit tft lib
-#include <Adafruit_STMPE610.h>         // the adafruit touch lib
-#include <Adafruit_NFCShield_I2C.h>    // the adafruit nfc shield lib
-
-#include <ScreenLib.h>
-#include <NFCLib.h>
-
-//#include <SD.h>
-//#include <SDLib.h>
 
 
 
@@ -34,7 +22,6 @@ ScreenLib screen = ScreenLib(TFT_CS, TFT_DC);
 
 /**** ntc settings ****/
 
-//Adafruit_NFCShield_I2C nfc(NFC_IRQ_PIN, NFC_RESET_PIN);
 NFCLib nfclib;
 
 char nfc_key[6] = { 
