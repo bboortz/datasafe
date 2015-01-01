@@ -190,7 +190,6 @@ void actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolean keyboardOn) {
     return;
   }
 
-
   // actions
   actOnButtonPress(x, y);
 
@@ -224,12 +223,13 @@ void actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolean keyboardOn) {
 }
 
 void actOnButtonPress(uint16_t x, uint16_t y) {
-  Serial.print(x); 
-  Serial.print(" / "); 
-  Serial.print(y);
-  Serial.println("");
   if (SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 >= y && y <= SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 + SCREEN_BUTTON_SIZE * 2) {
     if (SCREEN_TEXT_PADDING*3 >= x && x <= SCREEN_TEXT_PADDING*3 + SCREEN_BUTTON_SIZE * 2) {
+	  Serial.print("Button pressed: ");   
+	  Serial.print(x); 
+	  Serial.print(" / "); 
+	  Serial.print(y);
+	  Serial.println("");
       reset();  
     }
   }
