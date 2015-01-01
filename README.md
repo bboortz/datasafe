@@ -30,9 +30,16 @@ Your data is stored on a sd card in an encrypted way. There are no other interfa
 # Installation
 
 * Install the development sofware
-$ apt-get insall arudino
+$ apt-get insall arduino
 
 * Copy the required libraries
 * Copy the datasafe software
+
+
+# Tested under
+
+* Debian Wheezy
+* Arduino 1.0.5
+* UECIDE 0.8.7
 
 
