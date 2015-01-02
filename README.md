@@ -9,11 +9,25 @@ The device has only a touchscreen display and a nfc interface for login.
 Your data is stored on a sd card in an encrypted way. There are no other interfaces.
 
 
+
+# Current Features
+
+!! This software is currently only a click dummy. I'm working on it !!
+
+
+
+# Planned Features
+
+see IDEAS.md
+
+
+
 # Hardware Requirements
 
 * Arduino 		(tested with an UNO r3)
 * NFC Reader/Writer 	(tested with adafruit PN532 RFID/NFC Shield 13.56MHz)
 * Touchscreen Display 	(tested with adafruit 2.8" TFT LCD shield w/Touchscreen)
+
 
 
 # Software Requirements 
@@ -36,7 +50,8 @@ $ apt-get insall arduino
 * Copy the datasafe software
 
 
-# Tested under
+
+# Compiled and tested with this development environment
 
 * Debian Wheezy
 * Arduino 1.0.5
