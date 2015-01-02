@@ -28,10 +28,11 @@
 #include <Adafruit_NFCShield_I2C.h>    // the adafruit nfc shield lib
 
 // libraries from https://github.com/bboortz/arduino-libs
-#include <ScreenLib.h>
+#include <datasafe_screen.h>
 #include <NFCLib.h>
 
 // experimental libraries
+// #include <ScreenLib.h>
 //#include <SD.h>
 //#include <SDLib.h>
 
