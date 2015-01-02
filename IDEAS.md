@@ -27,6 +27,7 @@ Needed Testcases
 * Fuzzy testing all used libraries/classes
 * Testing the state pattern (program internal - see loop())
 * static code analysis: e.g. splint(.py)/cppcheck/cpplint
+* source code coverage: e.g. gcov (http://en.wikipedia.org/wiki/Gcov)
 
 
 Possible targets to hack the devices
