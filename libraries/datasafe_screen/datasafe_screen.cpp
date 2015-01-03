@@ -5,7 +5,7 @@
 
 
 
-#include <datasafe_screen.h>
+#include <./datasafe_screen.h>
 
 
 void datasafe_screen::begin() {
@@ -15,65 +15,45 @@ void datasafe_screen::begin() {
 
 void datasafe_screen::reset() {
 
+        // reset the display and touchscreen
+        _screen.reset();
+
 	// show the splash screen
 	showSplashScreen();
-
-	// reset the touchscreen
-	uint16_t x, y;
-	uint8_t z;  
-	while (!_screen.getTouchScreen().bufferEmpty()) {
-		_screen.getTouchScreen().readData(&x, &y, &z);
-	}
-	_screen.getTouchScreen().writeRegister8(STMPE_INT_STA, 0xFF);
 
 	// reset some variables
 	_last_key_press_ms = 0;
 }
 
-
-void datasafe_screen::clearScreen() {
-	_screen.clearScreen();
-}
-
 void datasafe_screen::showSplashScreen() {
-	_screen.fillScreen(ILI9341_BLACK);  
-	_screen.setCursor(BOXSIZE, BOXSIZE);
-	_screen.setTextColor(ILI9341_RED);  
-	_screen.setTextSize(4);
-	_screen.println(_screen_messages[0]);
-
-	_screen.setCursor(BOXSIZE*3, BOXSIZE*3);
-	_screen.setTextColor(ILI9341_WHITE);  
-	_screen.setTextSize(2);
-	_screen.println(_screen_messages[1]);
+	_screen.clearScreen();
+        _screen.writeText(BOXSIZE, BOXSIZE, 4, SCREENLIB_RED, SCREEN_MESSAGE_000);
+        _screen.writeText(BOXSIZE*3, BOXSIZE*3, 2, SCREENLIB_WHITE, SCREEN_MESSAGE_001);
 }
 
 void datasafe_screen::showNFCKeyScreen() {
-	clearScreen();
-	_screen.writeTextToTop(_screen_messages[2]);
-	_screen.writeTextToBottom(_screen_messages[3]);
+	_screen.drawStandardScreen();
+	_screen.writeTextToTop(SCREEN_MESSAGE_002);
+	_screen.writeTextToBottom(SCREEN_MESSAGE_003);
 	_screen.drawKeyboard();
 }
 
 void datasafe_screen::showNFCCardScreen() {
-	clearScreen();
-	_screen.writeTextToTop(_screen_messages[2]);
-	_screen.writeTextToBottom(_screen_messages[4]);
+	_screen.drawStandardScreen();
+	_screen.writeTextToTop(SCREEN_MESSAGE_002);
+	_screen.writeTextToBottom(SCREEN_MESSAGE_004);
 }
 
 void datasafe_screen::showDataScreen() {
-	_screen.fillScreen(ILI9341_BLACK);  
-	_screen.setCursor(0, 0);
-	_screen.setTextColor(ILI9341_WHITE);  
-	_screen.setTextSize(2);
-	_screen.println("The data:");
-
-	_screen.setCursor(BOXSIZE*2, BOXSIZE*2);
-	_screen.println("MY SECRET DATA !!");
+        _screen.drawStandardScreen();
+        _screen.writeTextToTop(SCREEN_MESSAGE_008);
+        _screen.writeText(0, BOXSIZE*2, 2, SCREENLIB_WHITE, "MY SECRET DATA !!");
+//        _screen.writeTextToBottom(SCREEN_MESSAGE_003);
+        
+//        _screen.writeText(0, 0 , 2, SCREENLIB_WHITE, SCREEN_MESSAGE_005);
+        
 
 	//  sd.showFile("test.txt");
-
-	delay(3000);
 }
 
 
@@ -87,22 +67,12 @@ void datasafe_screen::showDataScreen() {
 char datasafe_screen::touchscreenAction() {
 	char result = 0;
 	
-	// wait for the touch and show it
-	if (_screen.getTouchScreen().bufferEmpty()) {
-		return result;
-	}
-	if (!_screen.getTouchScreen().touched()) {
-		return result;
-	}
-
-
 	// Retrieve a point  
 	TS_Point p = _screen.touchscreenGetPoint();
-	/*
-    if (p.z == 0) {
-	 return;
-	 }
-	 */
+	
+        if (p.z == 0) {
+                return result;
+	}
 
 	// act on touchscreen interaction
 	result = actOnTouchScreenInteraction(p.x, p.y, true);
@@ -127,9 +97,9 @@ char datasafe_screen::actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolea
 		c = _screen.actOnKeyboardKeyPress(x, y);
 		if (c != 0) {
 			char dest[7];
-			strcpy(dest, "key: ");
+			strcpy(dest, SCREEN_MESSAGE_006);
 			dest[5] = c;
-			dest[6] = '\0';
+			dest[6] = SCREEN_STRING_TERMINATION;
 			_screen.writeTextToBottom(dest);
 		}
 	}
@@ -144,11 +114,13 @@ char datasafe_screen::actOnTouchScreenInteraction(uint16_t x, uint16_t y, boolea
 void datasafe_screen::actOnButtonPress(uint16_t x, uint16_t y) {
 	if (SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 >= y && y <= SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 + SCREEN_BUTTON_SIZE * 2) {
 		if (SCREEN_TEXT_PADDING*3 >= x && x <= SCREEN_TEXT_PADDING*3 + SCREEN_BUTTON_SIZE * 2) {
-			Serial.print("Button pressed: ");   
+#ifdef SCREEN_DEBUG
+			Serial.print(SCREEN_MESSAGE_007);   
 			Serial.print(x); 
-			Serial.print(" / "); 
+			Serial.print(SCREEN_STRING_SPLIT); 
 			Serial.print(y);
-			Serial.println("");
+			Serial.println();
+#endif // #ifdef SCREEN_DEBUG
 			reset();  
 		}
 	}

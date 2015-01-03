@@ -18,35 +18,38 @@
 #endif
 
 // arduino standard libraries
-#include <SPI.h>      
-#include <Wire.h>
+//#include <SPI.h>      
+//#include <Wire.h>
 
-// adafruit libraries
-#include <Adafruit_GFX.h>              // the adafruit core graphics lib
-#include <Adafruit_ILI9341.h>          // the adafruit tft lib
-#include <Adafruit_STMPE610.h>         // the adafruit touch lib
-#include <Adafruit_NFCShield_I2C.h>    // the adafruit nfc shield lib
+// project internal libraries
+#include <datasafe_screen.h>
 
 // libraries from https://github.com/bboortz/arduino-libs
-#include <datasafe_screen.h>
 #include <NFCLib.h>
+#include <SDLib.h>
 
-// experimental libraries
-// #include <ScreenLib.h>
-//#include <SD.h>
-//#include <SDLib.h>
 
 
 
 /**** program settings ****/
-#define PROG_NAME		"DataSafe"
-#define PROG_VERSION	"v1.0"
+#define PROG_NAME		        "DataSafe"
+#define PROG_VERSION                    "v1.0"
 
 
 
 
 /**** logging and debugging ****/
+// #define PROG_VERBOSE
 // #define PROG_DEBUG
+
+
+
+
+/**** messages ****/
+
+#define DATASAFE_MESSAGE_000              "\r\n---------- STARTED / RESET ----------"
+#define DATASAFE_MESSAGE_001              "next state: "
+#define DATASAFE_MESSAGE_002              " => "
 
 
 
