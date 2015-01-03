@@ -162,21 +162,6 @@ void doStateShowData() {
 
 
 
-/**** debug functions ****/
-
-/*
-int availableMemory() {
-    // Use 1024 with ATmega168
-    int size = 2048;
-    byte *buf;
-    while ((buf = (byte *) malloc(--size)) == NULL);
-        free(buf);
-    return size;
-}
-*/
-
-
-
 /**** arduino default functions ****/
 
 void setup(void) {
@@ -189,10 +174,13 @@ void setup(void) {
 #endif // #ifdef PROG_VERBOSE
 }
 
-void loop()
-{
-//        Serial.println(availableMemory());
+void loop() {
         
+#ifdef PROG_ANALYZE_MEM
+        Serial.print("freeMemory() = ");
+        Serial.println(freeMemory());
+#endif // #ifdef PROG_ANALYZE_MEM
+
 	// working with the state pattern because we have different screens (states)
 	switch (current_state) {
 	case STATE_RESET:              
@@ -222,8 +210,5 @@ void loop()
 	}
 
 }
-
-
-
 
 

@@ -41,6 +41,11 @@
 /**** logging and debugging ****/
 // #define PROG_VERBOSE
 // #define PROG_DEBUG
+// #define PROG_ANALYZE_MEM
+
+#ifdef PROG_ANALYZE_MEM
+        #include <MemoryFree.h>
+#endif // #ifdef PROG_ANALYZE_MEM
 
 
 

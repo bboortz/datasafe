@@ -38,6 +38,7 @@ see IDEAS.md
 * Adafruit_ILI9341		(https://github.com/adafruit/Adafruit_ILI9341)
 * Adafruit_STMPE610		(https://github.com/adafruit/Adafruit_STMPE610)
 * Adafruit_NFCShield_I2C	(https://github.com/adafruit/Adafruit_NFCShield_I2C)
+* MemoryFree			(https://github.com/maniacbug/MemoryFree) [if PROG_ANALYZE_MEM is defined - disabled by default]
 
 
 
