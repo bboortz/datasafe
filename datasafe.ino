@@ -22,7 +22,7 @@ datasafe_screen ds_screen;
 
 /**** ntc settings ****/
 
-// NFCLib nfclib;
+NFCLib nfclib;
 
 char nfc_key[6] = { 
 	0, 0, 0, 0, 0, 0 }; // the key buffer
@@ -33,7 +33,7 @@ uint8_t nfc_key_count = 0;
 
 /**** sd settings ****/
 
-// SDLib sd;
+SDLib sd;
 
 
 
@@ -68,10 +68,10 @@ void reset() {
 	ds_screen.reset();
 
 	// reset the sd card controller
-	// sd.setup();
+	sd.setup();
 
         // setup the nfc controller
-        //nfclib.setupHost();
+        nfclib.setupHost();
 }
 
 
@@ -138,12 +138,10 @@ void doStateNfcCardLoginBegin() {
 void doStateNfcCardLogin() {
 
 	// read the nfc card
-    /*
 	uint8_t uid[] = { 
 		0, 0, 0, 0, 0, 0, 0   	};                    // Buffer to store the returned UID
 	uint8_t uidLength = nfclib.initTarget(&*uid);               // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
 	uidLength = nfclib.printTarget();   
-    */
 	
 	// next state
 	nextState();
@@ -153,7 +151,7 @@ void doStateShowData() {
 	// show the data
 	ds_screen.showDataScreen();
 
-	// sd.showFile("test.txt");
+	//sd.showFile("test.txt");
 
 	delay(3000);
 
@@ -164,19 +162,27 @@ void doStateShowData() {
 
 
 
+/**** debug functions ****/
+
+/*
+int availableMemory() {
+    // Use 1024 with ATmega168
+    int size = 2048;
+    byte *buf;
+    while ((buf = (byte *) malloc(--size)) == NULL);
+        free(buf);
+    return size;
+}
+*/
+
+
+
 /**** arduino default functions ****/
 
 void setup(void) {
-        Serial.begin(115200);
-
-         while (!Serial) {
-                 ; // wait for serial port to connect. Needed for Leonardo only
-        }
-        
-        Serial.println("test!!!");
         
 	// setup the screen
-	ds_screen.begin();  
+	ds_screen.begin();
 
 #ifdef PROG_VERBOSE
         Serial.println(DATASAFE_MESSAGE_000);
@@ -185,6 +191,8 @@ void setup(void) {
 
 void loop()
 {
+//        Serial.println(availableMemory());
+        
 	// working with the state pattern because we have different screens (states)
 	switch (current_state) {
 	case STATE_RESET:              
