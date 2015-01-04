@@ -76,7 +76,7 @@ public:
 	void showSplashScreen();
 	void showNFCKeyScreen();
 	void showNFCCardScreen();
-	void showDataScreen();
+	void showDataScreen(const char* str);
 	char touchscreenAction();
 
 	

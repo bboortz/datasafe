@@ -44,16 +44,11 @@ void datasafe_screen::showNFCCardScreen() {
 	_screen.writeTextToBottom(SCREEN_MESSAGE_004);
 }
 
-void datasafe_screen::showDataScreen() {
+void datasafe_screen::showDataScreen(const char* str) {
         _screen.drawStandardScreen();
         _screen.writeTextToTop(SCREEN_MESSAGE_008);
-        _screen.writeText(0, BOXSIZE*2, 2, SCREENLIB_WHITE, "MY SECRET DATA !!");
-//        _screen.writeTextToBottom(SCREEN_MESSAGE_003);
-        
-//        _screen.writeText(0, 0 , 2, SCREENLIB_WHITE, SCREEN_MESSAGE_005);
-        
-
-	//  sd.showFile("test.txt");
+        _screen.writeText(0, BOXSIZE*2, 2, SCREENLIB_WHITE, str);
+        Serial.println(str);
 }
 
 

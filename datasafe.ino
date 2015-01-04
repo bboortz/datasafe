@@ -155,9 +155,19 @@ void doStateNfcCardLogin() {
 
 void doStateShowData() {
 	// show the data
-	ds_screen.showDataScreen();
+        char* data = sd.readFile("test.txt");
+        
 
-	sd.showFile("test.txt");
+        ds_screen.showDataScreen( data );
+        /*
+        Serial.println( data );
+        delay(1000);
+        */
+        
+      
+
+//	sd.showFile("test.txt");
+//        Serial.println( sd.readFile("test.txt") );
 
 	delay(3000);
 
@@ -170,7 +180,7 @@ void doStateShowData() {
 
 /**** arduino default functions ****/
 
-void setup(void) {
+void setup(void) { 
         
 	// setup the screen
 	ds_screen.begin();
