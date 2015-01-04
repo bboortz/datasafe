@@ -25,6 +25,7 @@
 #include <datasafe_screen.h>
 
 // libraries from https://github.com/bboortz/arduino-libs
+//#include <LogLib.h>
 #include <NFCLib.h>
 #include <SDLib.h>
 
@@ -55,6 +56,7 @@
 #define DATASAFE_MESSAGE_000              "\r\n---------- STARTED / RESET ----------"
 #define DATASAFE_MESSAGE_001              "next state: "
 #define DATASAFE_MESSAGE_002              " => "
+#define DATASAFE_MESSAGE_003              "free memory = "
 
 
 

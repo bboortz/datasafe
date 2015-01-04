@@ -115,10 +115,10 @@ void datasafe_screen::actOnButtonPress(uint16_t x, uint16_t y) {
 	if (SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 >= y && y <= SCREEN_BUTTON_MINY + SCREEN_TEXT_PADDING*2.7 + SCREEN_BUTTON_SIZE * 2) {
 		if (SCREEN_TEXT_PADDING*3 >= x && x <= SCREEN_TEXT_PADDING*3 + SCREEN_BUTTON_SIZE * 2) {
 #ifdef SCREEN_DEBUG
-			Serial.print(SCREEN_MESSAGE_007);   
-			Serial.print(x); 
-			Serial.print(SCREEN_STRING_SPLIT); 
-			Serial.print(y);
+			Serial.print(F(SCREEN_MESSAGE_007));   
+			Serial.print(F(x)); 
+			Serial.print(F(SCREEN_STRING_SPLIT)); 
+			Serial.print(F(y));
 			Serial.println();
 #endif // #ifdef SCREEN_DEBUG
 			reset();  

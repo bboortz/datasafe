@@ -13,6 +13,12 @@
 
 
 
+/**** Logging settings ****/
+
+//LogLib logger;
+
+
+
 
 /**** widget library settings ****/
 datasafe_screen ds_screen;
@@ -81,10 +87,10 @@ void reset() {
 
 void nextState() {
 #ifdef PROG_DEBUG
-	Serial.print(DATASAFE_MESSAGE_001);
-	Serial.print(current_state);
-	Serial.print(DATASAFE_MESSAGE_002);
-	Serial.print(current_state+1);
+	Serial.print(F(DATASAFE_MESSAGE_001));
+	Serial.print(F(current_state));
+	Serial.print(F(DATASAFE_MESSAGE_002));
+	Serial.print(F(current_state+1));
 	Serial.println();
 #endif // #ifdef PROG_DEBUG
         
@@ -151,7 +157,7 @@ void doStateShowData() {
 	// show the data
 	ds_screen.showDataScreen();
 
-	//sd.showFile("test.txt");
+	sd.showFile("test.txt");
 
 	delay(3000);
 
@@ -170,14 +176,15 @@ void setup(void) {
 	ds_screen.begin();
 
 #ifdef PROG_VERBOSE
-        Serial.println(DATASAFE_MESSAGE_000);
+        Serial.println(F(DATASAFE_MESSAGE_000));
 #endif // #ifdef PROG_VERBOSE
 }
+
 
 void loop() {
         
 #ifdef PROG_ANALYZE_MEM
-        Serial.print("freeMemory() = ");
+        Serial.print(F(DATASAFE_MESSAGE_003));
         Serial.println(freeMemory());
 #endif // #ifdef PROG_ANALYZE_MEM
 
