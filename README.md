@@ -13,6 +13,7 @@ Your data is stored on a sd card in an encrypted way. There are no other interfa
 # Current Features
 
 !! This software is currently only a click dummy. I'm working on it !!
+The complete encryption is currently missing.
 
 
 
