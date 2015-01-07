@@ -17,6 +17,10 @@ Features (currently not implemented)
 ** key keyboard size adapts by the screen size and screen rotation
 * let the user keyboard rotate. Therefore it isn't so easy for an atacker to map the grease spots to the keyboard.
 * substitute some keyboard keys. Therefore it isn't so easy for an atacker to map the grease spots to the keyboard.
+* it should be feasible to use different hardware
+** different platforms, .e.g. arduino, teenys
+** different displays
+** different login panels, e.g. nfc, smartcard
 
 
 Needed Testcases
