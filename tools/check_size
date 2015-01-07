@@ -9,8 +9,8 @@ avr-size "${FILE}" | awk '/\W*[0-9]/ {
 	text=$1; data=$2; bss=$3; 
 	flash=text+data; flash_free=max_flash-flash; flash_percent=flash/max_flash*100;
 	ram=data+bss; ram_free=max_ram-ram; ram_percent=ram/max_ram*100;
-	flash_info=""; if (flash_percent >= 85) { flash_info="too mush!" }
-	ram_info=""; if (ram_percent >= 85) { ram_info="too mush!" }
+	flash_info=""; if (flash_percent >= 80) { flash_info="too mush!" }
+	ram_info=""; if (ram_percent >= 80) { ram_info="too mush!" }
 
 	print  "       used[bytes]  free[bytes]  %-used"
 	printf "Flash  %11d  %11d  %6d  %s\n", flash, flash_free, flash_percent, flash_info

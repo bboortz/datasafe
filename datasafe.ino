@@ -155,20 +155,8 @@ void doStateNfcCardLogin() {
 void doStateShowData() {
 	// show the data
         char* data = sd.readFile("test.txt");
-        
-
         ds_screen.showDataScreen( data );
-        /*
-        Serial.println( data );
-        delay(1000);
-        */
-        
-      
-
-//	sd.showFile("test.txt");
-//        Serial.println( sd.readFile("test.txt") );
-
-	delay(3000);
+	delay(5000);
 
 	// next state
 	nextState();

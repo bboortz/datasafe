@@ -44,11 +44,10 @@ void datasafe_screen::showNFCCardScreen() {
 	_screen.writeTextToBottom(SCREEN_MESSAGE_004);
 }
 
-void datasafe_screen::showDataScreen(const char* str) {
+void datasafe_screen::showDataScreen(char* str) {
         _screen.drawStandardScreen();
         _screen.writeTextToTop(SCREEN_MESSAGE_008);
         _screen.writeText(0, BOXSIZE*2, 2, SCREENLIB_WHITE, str);
-        Serial.println(str);
 }
 
 
